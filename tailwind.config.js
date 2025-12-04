@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
+    "node_modules/preline/dist/*.js", // 👈 IMPORTANTE
   ],
   theme: {
     extend: {
@@ -11,5 +12,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("preline/plugin"), // 👈 NECESARIO
+  ],
 };

@@ -1,183 +1,249 @@
-import React, { useState } from "react";
-import { FaUser, FaLock } from "react-icons/fa";
-import FondoLogin from "../../assets/ImagenLogin.jpg";
-import logo from "../../assets/LOGOS-GREEN-ENERGY.png";
+import React, { useEffect, useState } from "react";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
-const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    password: "",
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import crud from "../../../src/conexiones/crud";
+import swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
+
+// Validación
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Correo electrónico no válido")
+    .required("El correo es obligatorio"),
+  password: yup
+    .string()
+    .min(5, "La contraseña debe tener al menos 5 caracteres")
+    .required("La contraseña es obligatoria"),
+});
+
+const Login = () => {
+  const navigate = useNavigate();
+
+  const [mostrarPassword, setMostrarPassword] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/admin");
+  }, [navigate]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const ingresarCuenta = async (data) => {
+    try {
+      const response = await crud.POST(`/api/auth`, data);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Datos de login:", formData);
-    // aquí luego rediriges a otra pantalla (react-router, etc.)
+      if (response.msg) {
+        swal.fire("Error", response.msg, "error");
+        return;
+      }
+
+      const jwt = response.token;
+      localStorage.setItem("token", jwt);
+
+      const decoded = jwtDecode(jwt);
+      const rol = decoded.usuario.rol.toLowerCase();
+
+      if (rol === "admin") navigate("/admin");
+      else navigate("/regular");
+    } catch (error) {
+      swal.fire("Error", "Hubo un problema en la autenticación.", "error");
+    }
   };
 
   return (
-    // 👉 FONDO SOLO EN ESTA PANTALLA
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${FondoLogin})` }}
-    >
-      {/* CARD DEL LOGIN */}
+    <div className="min-h-screen w-full bg-login bg-cover bg-center relative flex items-center justify-center">
+      {/* Overlay transparente */}
+      <div className="absolute inset-0 bg-black/30"></div>
+
+      {/* Tarjeta principal */}
       <div
         className="
-        relative flex flex-col items-center gap-1
-        rounded-[30px] border-8 border-red-700/60 bg-zinc-100/50
-        p-10
-        shadow-[-5px_-5px_15px_rgba(255,255,255,0.1),5px_5px_15px_rgba(0,0,0,0.35),inset_-5px_-5px_15px_rgba(255,255,255,0.1),inset_5px_5px_15px_rgba(0,0,0,0.35)]
+          relative z-10 
+          flex flex-col items-center gap-1
+          rounded-[30px] border-4 border-green-700
+          bg-green-100/10
+          p-8 sm:p-10 
+          w-[90%] max-w-[420px]
+          shadow-2xl backdrop-blur-sm
+          animate-fadeIn
         "
       >
-        {/* Logo GET Latin American */}
+        {/* Logo */}
         <div className="flex justify-center mb-4">
-          <div className="max-w-[200px] w-full">
+          <div className="max-w-[180px] w-full">
             <img
-              src={logo}
+              src="https://res.cloudinary.com/dv84nv8y0/image/upload/v1764612524/GetLa/Logo_GetLa_acxme3.jpg"
               alt="GET Latin American"
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain animate-popIn rounded-lg"
             />
           </div>
         </div>
-        {/* Formulario */}
+
+        {/* FORM */}
         <form
-          onSubmit={handleSubmit}
-          className="flex flex-col items-center gap-4"
+          onSubmit={handleSubmit(ingresarCuenta)}
+          className="flex flex-col items-center gap-5 w-full"
         >
-          <h2 className="text-black text-center text-lg font-bold tracking-widest">
+          <h2 className="text-black text-center text-xl font-extrabold tracking-widest">
             Ingresa aquí
           </h2>
 
-          {/* Nombres y Apellidos */}
-          <div className="relative w-82">
+          {/* EMAIL */}
+          <div className="relative w-full">
             <input
               type="text"
-              name="fullName"
               autoComplete="off"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
               placeholder=" "
+              {...register("email")}
               className="
-              peer w-full rounded-full border border-black/10
-              bg-red-400/70 px-12 py-3 text-sm font-bold text-black
-              outline-none
-              shadow-[-5px_-5px_15px_rgba(255,255,255,0.1),5px_5px_15px_rgba(0,0,0,0.35)]
-              transition
-              focus:border-red-600
-              focus:bg-red-400/80      /* 👈 mantiene el fondo rojo al hacer foco */
+                peer w-full rounded-full border border-black/20
+                bg-green-200 px-12 py-3 text-sm font-bold text-black
+                outline-none shadow-inner
+                transition-all duration-300
+                focus:bg-green-300
               "
             />
 
+            {/* Label flotante */}
             <span
               className="
-              pointer-events-none absolute left-12
-              -top-1.5 text-[10px] font-bold tracking-[0.05em] text-black
-              bg-red-300/80 px-2 rounded-lg
-              transition-all
-
-              /* Cuando está vacío: baja y se hace un poco más grande */
-              peer-placeholder-shown:top-3
-              peer-placeholder-shown:text-[12px]
-              peer-placeholder-shown:bg-transparent
-              peer-placeholder-shown:px-0
-              peer-placeholder-shown:rounded-none
-
-              /* Cuando tiene foco: mantenemos posición arriba pero cambiamos color si quieres */
-              peer-focus:text-black
+                pointer-events-none absolute left-12 -top-2
+                text-[11px] font-bold text-black
+                bg-green-100 px-2 rounded-md
+                transition-all duration-300
+                peer-placeholder-shown:top-3
+                peer-placeholder-shown:text-[13px]
+                peer-placeholder-shown:bg-transparent
+                peer-placeholder-shown:px-0
+                peer-placeholder-shown:rounded-none
               "
             >
               Ingrese su Usuario
             </span>
 
+            {/* Icono */}
             <span
               className="
-              absolute left-3 top-3 flex items-center justify-center
-              border-r border-red-700 pr-2 text-red-900
-              text-xl
+                absolute left-3 top-3 flex items-center justify-center
+                border-r border-green-700 pr-2 text-green-900 text-xl
               "
             >
               <FaUser />
             </span>
+
+            <p className="text-red-600 text-xs mt-1">{errors.email?.message}</p>
           </div>
 
-          {/* Contraseña */}
-          <div className="relative w-82">
+          {/* PASSWORD */}
+          <div className="relative w-full">
             <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
+              type={mostrarPassword ? "text" : "password"}
               placeholder=" "
+              {...register("password")}
               className="
-              peer w-full rounded-full border border-black/10
-              bg-red-400/70 px-12 py-3 text-sm font-light text-black
-              outline-none
-              shadow-[-5px_-5px_15px_rgba(255,255,255,0.1),5px_5px_15px_rgba(0,0,0,0.35)]
-              transition
-              focus:border-red-600
-            "
+                peer w-full rounded-full border border-black/20
+                bg-green-200 px-12 py-3 text-sm font-bold text-black
+                outline-none shadow-inner
+                transition-all duration-300
+                focus:bg-green-300
+              "
             />
+
+            {/* Label flotante */}
             <span
               className="
-              pointer-events-none absolute left-12
-              -top-1.5 text-[10px] font-bold tracking-[0.05em] text-black
-              bg-red-300/80 px-2 rounded-lg
-              transition-all
-
-              /* Cuando está vacío: baja y se hace un poco más grande */
-              peer-placeholder-shown:top-3
-              peer-placeholder-shown:text-[12px]
-              peer-placeholder-shown:bg-transparent
-              peer-placeholder-shown:px-0
-              peer-placeholder-shown:rounded-none
-
-              /* Cuando tiene foco: mantenemos posición arriba pero cambiamos color si quieres */
-              peer-focus:text-black
-            "
+                pointer-events-none absolute left-12 -top-2
+                text-[11px] font-bold text-black
+                bg-green-100 px-2 rounded-md
+                transition-all duration-300
+                peer-placeholder-shown:top-3
+                peer-placeholder-shown:text-[13px]
+                peer-placeholder-shown:bg-transparent
+                peer-placeholder-shown:px-0
+                peer-placeholder-shown:rounded-none
+              "
             >
               Ingrese su Contraseña
             </span>
 
+            {/* Icono Password */}
             <span
               className="
-              absolute left-3 top-3 flex items-center justify-center
-              border-r border-red-700 pr-2 text-red-900
-              text-xl
-            "
+                absolute left-3 top-3 flex items-center justify-center
+                border-r border-green-700 pr-2 text-green-900 text-xl
+              "
             >
               <FaLock />
             </span>
+
+            {/* Botón mostrar/ocultar */}
+            <button
+              type="button"
+              onClick={() => setMostrarPassword(!mostrarPassword)}
+              className="absolute right-4 top-3 text-green-900 text-lg"
+            >
+              {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+
+            <p className="text-red-600 text-xs mt-1">
+              {errors.password?.message}
+            </p>
           </div>
 
-          {/* Botón */}
-          <div className="w-72">
-            <button
-              type="submit"
-              className="
-              w-full rounded-full bg-red-400
-              py-2 text-sm font-bold text-black
-              shadow-[-5px_-5px_15px_rgba(255,255,255,0.1),5px_5px_15px_rgba(0,0,0,0.35),inset_-5px_-5px_15px_rgba(255,255,255,0.1),inset_5px_5px_15px_rgba(0,0,0,0.35)]
-              transition hover:brightness-110
+          {/* BOTÓN */}
+          <button
+            type="submit"
+            className="
+              w-full rounded-full bg-green-500
+              py-3 text-sm font-bold text-black
+              shadow-md
+              hover:bg-green-600 hover:scale-[1.03]
+              active:scale-95
+              transition-all duration-300
             "
-            >
-              Ingresar
-            </button>
-          </div>
+          >
+            Ingresar
+          </button>
         </form>
       </div>
+
+      {/* Estilos */}
+      <style>
+        {`
+        .bg-login {
+          background-image: url("https://res.cloudinary.com/dv84nv8y0/image/upload/v1764612525/GetLa/ImagenLogin_k2fkrr.jpg");
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+          0% { transform: scale(0.8); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-popIn {
+          animation: popIn 0.6s ease-out;
+        }
+        `}
+      </style>
     </div>
   );
 };
 
-export default LoginForm;
+export default Login;
