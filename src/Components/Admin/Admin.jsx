@@ -102,7 +102,7 @@ const Admin = () => {
       {/* CONTENIDO PRINCIPAL */}
       <main
         className={`flex-1 bg-green-300 p-4 sm:p-6 transition-all duration-300 ${
-          isOpen ? "ml-50" : "ml-20"
+          isOpen ? "ml-48" : "ml-20"
         }`}
       >
         <div className="max-w-6xl mx-auto">
@@ -169,7 +169,7 @@ const Admin = () => {
                       {/* ACTUALIZAR */}
                       <button
                         onClick={() => handleActualizarUsuario(item._id)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded w-full text-xs sm:text-sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded-lg w-full text-xs sm:text-sm"
                       >
                         Actualizar
                       </button>
@@ -177,7 +177,7 @@ const Admin = () => {
                       {/* ELIMINAR */}
                       <button
                         onClick={() => handleEliminarUsuario(item._id)}
-                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded w-full text-xs sm:text-sm"
+                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-lg w-full text-xs sm:text-sm"
                       >
                         Eliminar
                       </button>

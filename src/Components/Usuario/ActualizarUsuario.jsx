@@ -130,7 +130,7 @@ const ActualizarUsuario = () => {
 
       <main
         className={`flex-1 flex flex-col justify-center items-center px-3 transition-all duration-300 ${
-          isOpen ? "ml-64" : "ml-20"
+          isOpen ? "ml-48" : "ml-20"
         }`}
       >
         {/* TÍTULO */}
@@ -218,6 +218,10 @@ const ActualizarUsuario = () => {
               >
                 <option value="">Seleccione...</option>
                 <option value="admin">Administrador</option>
+                <option value="adminrep">Jefe Bodega de Repuestos</option>
+                <option value="admindot">Jefe Bodega de Dotación</option>
+                <option value="adminlimp">Jefe Bodega de Limpieza</option>
+                <option value="adminmant">Jefe de Mantención</option>
                 <option value="regular">Supervisor</option>
               </select>
             </div>

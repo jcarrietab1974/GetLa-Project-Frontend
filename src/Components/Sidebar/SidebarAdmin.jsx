@@ -50,7 +50,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   return (
     <aside
       className={`fixed top-0 left-0 h-full bg-green-200 shadow-lg z-40 transition-all duration-300 
-        ${open ? "w-50" : "w-20"}
+        ${open ? "w-48" : "w-20"}
       `}
     >
       {/* HEADER DEL SIDEBAR */}
@@ -104,20 +104,6 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
           {open && <span className="text-gray-800">Repuestos</span>}
         </div>
 
-        {/* Mantencion */}
-        <div
-          onClick={() => navigate("/mantencion")}
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-green-100 mt-2 cursor-pointer"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") navigate("/mantencion");
-          }}
-        >
-          <MdBuild className="text-2xl text-green-800" />
-          {open && <span className="text-gray-800">Mantención</span>}
-        </div>
-
         {/* Dotacion */}
         <div
           onClick={() => navigate("/dotacion")}
@@ -144,6 +130,20 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
         >
           <FaBroom className="text-2xl text-green-800" />
           {open && <span className="text-gray-800">Limpieza</span>}
+        </div>
+
+        {/* Mantencion */}
+        <div
+          onClick={() => navigate("/mantencion")}
+          className="flex items-center gap-3 p-2 rounded-lg hover:bg-green-100 mt-2 cursor-pointer"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") navigate("/mantencion");
+          }}
+        >
+          <MdBuild className="text-2xl text-green-800" />
+          {open && <span className="text-gray-800">Mantención</span>}
         </div>
       </nav>
 

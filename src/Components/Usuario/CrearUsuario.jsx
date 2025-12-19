@@ -81,7 +81,7 @@ const CrearUsuario = () => {
       {/* ¡Centrado total! */}
       <main
         className={`flex-1 flex flex-col justify-center items-center px-3 transition-all duration-300 ${
-          isOpen ? "ml-64" : "ml-20"
+          isOpen ? "ml-48" : "ml-20"
         }`}
       >
         <p className="text-lime-900 font-bold text-xl sm:text-2xl text-center mb-3 italic">
@@ -90,7 +90,6 @@ const CrearUsuario = () => {
 
         <div className="w-full max-w-sm bg-green-200 px-4 py-3 rounded-xl shadow-md border border-green-300">
           <form onSubmit={handleSubmit(crearUsuario)} className="space-y-2">
-            
             {/* Imagen */}
             <div>
               <label className="uppercase text-gray-600 block text-[10px] font-bold">
@@ -117,7 +116,9 @@ const CrearUsuario = () => {
                 className="w-full mt-1 p-1.5 border rounded-lg bg-gray-50 text-black text-xs"
               />
               {errors.nombre && (
-                <p className="text-red-500 text-[10px]">{errors.nombre.message}</p>
+                <p className="text-red-500 text-[10px]">
+                  {errors.nombre.message}
+                </p>
               )}
             </div>
 
@@ -146,7 +147,9 @@ const CrearUsuario = () => {
                 className="w-full mt-1 p-1.5 border rounded-lg bg-gray-50 text-black text-xs"
               />
               {errors.email && (
-                <p className="text-red-500 text-[10px]">{errors.email.message}</p>
+                <p className="text-red-500 text-[10px]">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -155,12 +158,18 @@ const CrearUsuario = () => {
               <label className="uppercase text-gray-600 block text-[10px] font-bold">
                 Rol
               </label>
-              <input
-                type="text"
+              <select
                 {...register("rol")}
-                placeholder="Ingresar admin o regular"
                 className="w-full mt-1 p-1.5 border rounded-lg bg-gray-50 text-black text-xs"
-              />
+              >
+                <option value="">Seleccione...</option>
+                <option value="admin">Administrador</option>
+                <option value="adminrep">Jefe Bodega de Repuestos</option>
+                <option value="admindot">Jefe Bodega de Dotación</option>
+                <option value="adminlimp">Jefe Bodega de Limpieza</option>
+                <option value="adminmant">Jefe de Mantención</option>
+                <option value="regular">Supervisor</option>
+              </select>
             </div>
 
             {/* Password */}
