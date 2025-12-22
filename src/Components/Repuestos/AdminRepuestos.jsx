@@ -12,14 +12,16 @@ const Repuestos = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  // Categorías
+  // Categorías TRepuestos
   const [categorias, setCategorias] = useState([]);
 
   // Estado para modal
   const [showModal, setShowModal] = useState(false);
   const [categoriaEdit, setCategoriaEdit] = useState(null);
 
-  // Cargar datos al iniciar
+  // ---------------------------------------------------
+  // 🔐 AUTENTICACIÓN
+  // ---------------------------------------------------
   useEffect(() => {
     const autenticarUsuario = () => {
       const token = localStorage.getItem("token");
@@ -186,7 +188,7 @@ const Repuestos = () => {
               sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2"
             >
               <MdCategory size={20} />
-              Crear Categorías
+              Crear Categoría
             </button>
           </div>
 
@@ -205,7 +207,7 @@ const Repuestos = () => {
                   <img
                     src={cat.imagen}
                     alt={cat.nombre}
-                    className="w-40 h-40 object-cover mb-3 rounded-2xl"
+                    className="h-40 object-contain mb-3 rounded-2xl"
                   />
 
                   <p className="font-bold text-lg text-green-900">
@@ -234,7 +236,6 @@ const Repuestos = () => {
                       }
                     >
                       ⚙️ Repuestos
-
                     </button>
                   </div>
                 </div>
@@ -278,7 +279,7 @@ const Repuestos = () => {
               }
             />
 
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-center gap-3">
               <button
                 onClick={cerrarModal}
                 className="px-4 py-2 bg-green-300 rounded-lg hover:bg-green-600 text-black font-semibold"

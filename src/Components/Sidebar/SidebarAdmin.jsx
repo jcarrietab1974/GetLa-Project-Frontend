@@ -87,7 +87,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
           }}
         >
           <FaUser className="text-xl text-green-800" />
-          {open && <span className="text-gray-800">Usuarios</span>}
+          {open && <span className="text-gray-800">Usuario</span>}
         </div>
 
         {/* Repuestos */}
