@@ -37,6 +37,12 @@ import ListaRepuestos from "./Components/Repuestos/ListaRepuestos";
 import CategoriaDotacion from "./Components/Dotacion/CategoriaDotacion";
 import ListaDotacion from "./Components/Dotacion/ListaDotacion";
 
+// --------------------
+// Limpieza
+// --------------------
+import CategoriaLimpieza from "./Components/Limpieza/CategoriaLimpieza";
+import ListaLimpieza from "./Components/Limpieza/ListaLimpieza";
+
 function App() {
   return (
     <Router>
@@ -72,6 +78,16 @@ function App() {
         <Route
           path="/AdminDotacion/lista/:categoriaId"
           element={<ListaDotacion />}
+        />
+
+        {/* ==================== LIMPIEZA ==================== */}
+        <Route
+          path="/AdminLimpieza/categorias"
+          element={<CategoriaLimpieza />}
+        />
+        <Route
+          path="/AdminLimpieza/lista/:categoriaId"
+          element={<ListaLimpieza />}
         />
 
         {/* ==================== PANELES POR ÁREA ==================== */}
