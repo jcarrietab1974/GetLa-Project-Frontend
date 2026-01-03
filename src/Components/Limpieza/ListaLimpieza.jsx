@@ -239,7 +239,7 @@ const ListaLimpieza = () => {
         <div className="max-w-6xl mx-auto">
           <div className="relative mb-6 text-center">
             <h2 className="text-3xl font-bold text-green-900 italic">
-              Productos de Dotación
+              Productos de Limpieza
             </h2>
             {categoria && (
               <p className="text-lg font-semibold text-green-800">

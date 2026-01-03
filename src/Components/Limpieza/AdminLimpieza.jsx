@@ -177,7 +177,7 @@ const Limpieza = () => {
           {/* Título */}
           <div className="relative mb-6 flex flex-col items-center">
             <p className="text-lime-900 font-bold text-2xl sm:text-3xl text-center italic">
-              Lista Categorías de Dotación
+              Lista Categorías de Limpieza
             </p>
 
             <button
