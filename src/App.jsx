@@ -20,6 +20,9 @@ import ActualizarUsuario from "./Components/Usuario/ActualizarUsuario";
 // --------------------
 // Paneles por área
 // --------------------
+import Cabecera from "./Components/Cabeceras/Cabecera";
+import Clientes from "./Components/Clientes/Clientes";
+import Factura from "./Components/Facturas/Factura";
 import Mantencion from "./Components/Mantencion/AdminMantencion";
 import Repuestos from "./Components/Repuestos/AdminRepuestos";
 import Dotacion from "./Components/Dotacion/AdminDotacion";
@@ -59,6 +62,15 @@ function App() {
           path="/admin/actualizar-usuario/:id"
           element={<ActualizarUsuario />}
         />
+
+        {/* ==================== Cabecera ==================== */}
+        <Route path="/cabecera" element={<Cabecera />} />
+
+        {/* ==================== Clientes ==================== */}
+        <Route path="/clientes" element={<Clientes />} />
+
+        {/* ==================== Facturas ==================== */}
+        <Route path="/facturas" element={<Factura />} />
 
         {/* ==================== REPUESTOS ==================== */}
         <Route

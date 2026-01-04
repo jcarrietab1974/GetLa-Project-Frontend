@@ -6,10 +6,13 @@ import {
   FaArrowRight,
   FaBroom,
   FaUserTie,
+  FaFileInvoice,
+  FaUsers,
 } from "react-icons/fa";
 import { MdBuild } from "react-icons/md";
 import { IoSettingsSharp } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
+import { MdReceiptLong } from "react-icons/md";
 import Swal from "sweetalert2";
 import logo from "../../assets/Logo_Getla.jpg";
 
@@ -88,6 +91,48 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
         >
           <FaUser className="text-xl text-green-800" />
           {open && <span className="text-gray-800">Usuario</span>}
+        </div>
+
+        {/* Cabecera */}
+        <div
+          onClick={() => navigate("/cabecera")}
+          className="flex items-center gap-3 p-2 rounded-lg hover:bg-green-100 cursor-pointer"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") navigate("/cabecera");
+          }}
+        >
+          <FaFileInvoice className="text-xl text-green-800" />
+          {open && <span className="text-gray-800">Cabecera</span>}
+        </div>
+
+        {/* Clientes */}
+        <div
+          onClick={() => navigate("/clientes")}
+          className="flex items-center gap-3 p-2 rounded-lg hover:bg-green-100 cursor-pointer"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") navigate("/clientes");
+          }}
+        >
+          <FaUsers className="text-xl text-green-800" />
+          {open && <span className="text-gray-800">Clientes</span>}
+        </div>
+
+        {/* Facturas */}
+        <div
+          onClick={() => navigate("/facturas")}
+          className="flex items-center gap-3 p-2 rounded-lg hover:bg-green-100 cursor-pointer"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") navigate("/facturas");
+          }}
+        >
+          <MdReceiptLong className="text-xl text-green-800" />
+          {open && <span className="text-gray-800">Facturas</span>}
         </div>
 
         {/* Repuestos */}

@@ -21,6 +21,7 @@ const ListaDotacion = () => {
   const [form, setForm] = useState({
     referencia: "",
     nombre: "",
+    talla: "",
     descripcion: "",
     precio: "",
     stock: "",
@@ -103,6 +104,7 @@ const ListaDotacion = () => {
     setForm({
       referencia: "",
       nombre: "",
+      talla: "",
       descripcion: "",
       precio: "",
       stock: "",
@@ -144,6 +146,7 @@ const ListaDotacion = () => {
         body: JSON.stringify({
           referencia: form.referencia.trim(),
           nombre: form.nombre.trim(),
+          talla: form.talla.trim(),
           descripcion: form.descripcion.trim(),
           precio: Number(form.precio),
           stock: Number(form.stock),
@@ -179,6 +182,7 @@ const ListaDotacion = () => {
     setForm({
       referencia: prod.referencia,
       nombre: prod.nombre,
+      talla: prod.talla,
       descripcion: prod.descripcion || "",
       precio: prod.precio,
       stock: prod.stock,
@@ -273,7 +277,7 @@ const ListaDotacion = () => {
                   <img
                     src={prod.imagen}
                     alt={prod.nombre}
-                    className="w-32 h-32 mx-auto rounded-xl object-cover"
+                    className="h-40 mx-auto rounded-xl object-contain"
                   />
 
                   <div className="mt-3 space-y-1 flex-1 text-gray-800">
@@ -284,6 +288,10 @@ const ListaDotacion = () => {
                     {/* REFERENCIA */}
                     <p className="text-xs text-center font-semibold">
                       Ref: {prod.referencia}
+                    </p>
+                    {/* TALLA */}
+                    <p className="text-xs">
+                      <strong>Talla:</strong> {prod.talla}
                     </p>
                     {/* DESCRIPCIÓN */}
                     <p className="text-xs">
@@ -350,7 +358,7 @@ const ListaDotacion = () => {
             </h3>
 
             <form onSubmit={handleSubmit}>
-              {["referencia", "nombre", "imagen"].map((name) => (
+              {["referencia", "nombre", "talla", "imagen"].map((name) => (
                 <input
                   key={name}
                   name={name}

@@ -151,13 +151,13 @@ const Admin = () => {
                   </div>
 
                   <div className="p-3 sm:p-4 flex flex-col grow">
-                    <h2 className="text-sm font-semibold mb-1.5 text-center text-zinc-900 break-words">
+                    <h2 className="text-sm font-semibold mb-1.5 text-center text-zinc-900 wrap-break-word">
                       {item.nombre}
                     </h2>
-                    <h2 className="text-xs mb-1.5 text-center text-zinc-900 break-words">
+                    <h2 className="text-xs mb-1.5 text-center text-zinc-900 wrap-break-word">
                       {item.cargo || "Sin cargo asignado"}
                     </h2>
-                    <h2 className="text-xs mb-1.5 text-center text-zinc-900 break-words">
+                    <h2 className="text-xs mb-1.5 text-center text-zinc-900 wrap-break-word">
                       {item.email}
                     </h2>
                     <h2 className="text-xs mb-2 text-center text-zinc-900">
