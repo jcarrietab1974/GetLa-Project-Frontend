@@ -70,7 +70,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
         {/* BOTÓN COLAPSAR */}
         <button
           onClick={handleToggle}
-          className="p-2 bg-green-400 rounded-lg hover:bg-green-300 transition"
+          className="p-2 bg-green-400 rounded-lg hover:bg-green-600 transition"
           aria-label={open ? "Contraer sidebar" : "Expandir sidebar"}
         >
           {open ? <FaArrowLeft /> : <FaArrowRight />}

@@ -96,7 +96,7 @@ const Admin = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen flex">
+    <div className="bg-gray-300 min-h-screen flex">
       <SidebarAdmin isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
       {/* CONTENIDO PRINCIPAL */}
@@ -119,7 +119,7 @@ const Admin = () => {
               w-full sm:w-auto
               flex items-center justify-center gap-2
               text-green-800 text-sm sm:text-base
-              cursor-pointer bg-green-500 px-4 py-2 rounded-2xl hover:bg-green-600
+              cursor-pointer bg-green-400 px-4 py-2 rounded-2xl hover:bg-green-600
               sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2
               "
             >
