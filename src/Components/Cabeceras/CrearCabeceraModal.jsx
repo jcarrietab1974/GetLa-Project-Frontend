@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 import crud from "../../conexiones/crud";
 
 /* IMPORTANTE (una sola vez en tu app, normalmente en main.jsx o App.jsx)
@@ -22,6 +23,25 @@ const CrearCabeceraModal = ({ onClose, actualizarCabeceras }) => {
   const [error, setError] = useState("");
 
   const getAuthToken = () => localStorage.getItem("token");
+
+  /* ===============================
+     ALERTAS (SweetAlert2)
+  =============================== */
+  const alertSuccess = (title, text) =>
+    Swal.fire({
+      icon: "success",
+      title,
+      text,
+      confirmButtonColor: "#16a34a", // green-600
+    });
+
+  const alertError = (title, text) =>
+    Swal.fire({
+      icon: "error",
+      title,
+      text,
+      confirmButtonColor: "#dc2626", // red-600
+    });
 
   /* ===============================
      HANDLERS
@@ -61,13 +81,21 @@ const CrearCabeceraModal = ({ onClose, actualizarCabeceras }) => {
         }
       );
 
+      // ✅ ALERTA DE ÉXITO
+      await alertSuccess(
+        "Cabecera creada",
+        "La cabecera fue creada correctamente."
+      );
+
       actualizarCabeceras();
       onClose();
     } catch (err) {
-      setError(
+      const mensaje =
         err.response?.data?.msg ||
-          "No se pudo crear la cabecera. Verifica el NIT."
-      );
+        "No se pudo crear la cabecera. Verifica el NIT.";
+
+      setError(mensaje);
+      alertError("Error", mensaje);
     } finally {
       setIsSaving(false);
     }
@@ -81,7 +109,7 @@ const CrearCabeceraModal = ({ onClose, actualizarCabeceras }) => {
       isOpen
       onRequestClose={onClose}
       className="bg-green-100 rounded-lg p-6 max-w-md w-full mx-auto outline-none"
-      overlayClassName="fixed inset-0 bg-opacity-50 flex items-center justify-center p-4"
+      overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center p-4"
     >
       <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
         Crear Cabecera
@@ -99,7 +127,8 @@ const CrearCabeceraModal = ({ onClose, actualizarCabeceras }) => {
               name={field}
               value={form[field]}
               onChange={handleChange}
-              className="w-full p-2 border rounded-md text-gray-800 focus:ring-2 focus:ring-lime-500"
+              className="w-full p-2 border rounded-md text-gray-800
+                         focus:ring-2 focus:ring-lime-500"
               disabled={isSaving}
             />
           </div>
@@ -114,6 +143,7 @@ const CrearCabeceraModal = ({ onClose, actualizarCabeceras }) => {
       {/* ACCIONES */}
       <div className="flex flex-col sm:flex-row justify-end gap-2 mt-6">
         <button
+          type="button"
           className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
           onClick={onClose}
           disabled={isSaving}
@@ -122,6 +152,7 @@ const CrearCabeceraModal = ({ onClose, actualizarCabeceras }) => {
         </button>
 
         <button
+          type="button"
           className={`px-4 py-2 rounded-lg text-white ${
             isSaving
               ? "bg-green-300 cursor-not-allowed"

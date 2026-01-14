@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 import crud from "../../conexiones/crud";
 
 const CabeceraModal = ({
@@ -22,6 +23,9 @@ const CabeceraModal = ({
 
   const getAuthToken = () => localStorage.getItem("token");
 
+  /* ================================
+     Sincronizar cabecera
+  ================================ */
   useEffect(() => {
     if (cabeceraSeleccionada) {
       setForm({
@@ -34,6 +38,40 @@ const CabeceraModal = ({
     }
   }, [cabeceraSeleccionada]);
 
+  /* ================================
+     Alertas
+  ================================ */
+  const alertSuccess = (title, text) =>
+    Swal.fire({
+      icon: "success",
+      title,
+      text,
+      confirmButtonColor: "#2563eb",
+    });
+
+  const alertError = (title, text) =>
+    Swal.fire({
+      icon: "error",
+      title,
+      text,
+      confirmButtonColor: "#dc2626",
+    });
+
+  const alertConfirm = ({ title, text, confirmText = "Confirmar" }) =>
+    Swal.fire({
+      title,
+      text,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: confirmText,
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+    });
+
+  /* ================================
+     Handlers
+  ================================ */
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -64,17 +102,29 @@ const CabeceraModal = ({
         },
       });
 
+      await alertSuccess(
+        "Actualizado",
+        "La cabecera fue actualizada correctamente"
+      );
+
       actualizarCabeceras();
       onClose();
     } catch (err) {
-      setError(err.response?.data?.msg || "No se pudo actualizar la cabecera.");
+      console.error(err);
+      alertError("Error", "No se pudo actualizar la cabecera.");
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("¿Estás seguro de eliminar esta cabecera?")) return;
+    const result = await alertConfirm({
+      title: "¿Eliminar cabecera?",
+      text: "Esta acción no se puede deshacer",
+      confirmText: "Eliminar",
+    });
+
+    if (!result.isConfirmed) return;
 
     setIsDeleting(true);
     setError("");
@@ -88,21 +138,30 @@ const CabeceraModal = ({
         },
       });
 
+      await alertSuccess(
+        "Eliminada",
+        "La cabecera fue eliminada correctamente"
+      );
+
       actualizarCabeceras();
       onClose();
     } catch (err) {
-      setError("No se pudo eliminar la cabecera.");
+      console.error(err);
+      alertError("Error", "No se pudo eliminar la cabecera.");
     } finally {
       setIsDeleting(false);
     }
   };
 
+  /* ================================
+     Render
+  ================================ */
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
       className="bg-green-100 rounded-lg p-6 max-w-md w-full mx-auto outline-none"
-      overlayClassName="fixed inset-0 bg-opacity-50 flex items-center justify-center p-4"
+      overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center p-4"
     >
       <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
         Editar Cabecera
@@ -119,7 +178,7 @@ const CabeceraModal = ({
               name={field}
               value={form[field]}
               onChange={handleChange}
-              className="w-full p-2 border rounded-md text-gray-800 focus:ring-2 focus:ring-lime-500"
+              className="w-full p-2 border rounded-md text-gray-900 focus:ring-2 focus:ring-lime-500"
             />
           </div>
         ))}

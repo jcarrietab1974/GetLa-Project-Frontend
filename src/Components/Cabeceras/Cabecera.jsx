@@ -106,14 +106,13 @@ const Cabecera = () => {
           <div className="p-4">
             <input
               type="text"
-              className="w-full md:w-96 pl-4 pr-4 py-2 outline-none text-gray-800 rounded-md shadow"
+              className="w-full md:w-96 pl-4 pr-4 py-2 outline-none text-green-900 border rounded-md shadow"
               placeholder="Buscar por NIT"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
             />
           </div>
 
-          {/* TABLA */}
           {/* TABLA */}
           <div className="px-4 pb-6">
             <div className="bg-white rounded-lg shadow-sm w-full overflow-x-auto">
